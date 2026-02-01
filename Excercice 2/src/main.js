@@ -8,7 +8,7 @@ console.log(`4 * 6 = ${mul(4, 6)}`);
 
 try {
   console.log(`10 / 2 = ${div(10, 2)}`);
-  console.log(`10 / 0 = ${div(10, 0)}`); // will throw
+  console.log(`10 / 0 = ${div(10, 0)}`); // Antaa virheen
 } catch (err) {
   console.error('Caught error:', err.message);
 }
