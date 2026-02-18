@@ -28,7 +28,7 @@ Unit Test (Jest)
     Two requests: one with a valid hex (ff00aa) expecting 200 and correct RGB, another with an invalid hex (zzz) expecting 400.
 
 # Running Locally
-`
+```
 # Install dependencies
 npm install
 
@@ -37,11 +37,11 @@ npm start   # → http://localhost:3000
 
 # Run unit tests
 npm test
-`
+```
 
 ## Key Features
 
-    Minimal footprint – Single route, no external services.
-    Pure conversion logic – hexToRgb() is isolated for easy reuse and testing.
-    Robust validation – Guarantees well‑formed output or clear error messages.
-    Ready for CI – Jest unit tests + Postman collection enable automated verification.
+- Minimal footprint – Single route, no external services.
+- Pure conversion logic – hexToRgb() is isolated for easy reuse and testing.
+- Robust validation – Guarantees well‑formed output or clear error messages.
+- Ready for CI – Jest unit tests + Postman collection enable automated verification.
