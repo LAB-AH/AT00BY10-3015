@@ -1,2 +1,5 @@
 # Ignore all Node files
 node_modules/
+
+# Ignore coverage directory
+coverage/

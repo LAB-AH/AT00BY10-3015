@@ -1,0 +1,75 @@
+{
+  "info": {
+    "_postman_id": "c5d1e7b5-8c5a-4d3c-bf90-1e2f9b4a6c7d",
+    "name": "Hex‑to‑RGB API – Integration Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /api/hex-to-rgb/:hex (valid)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/hex-to-rgb/ff00aa",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "hex-to-rgb", "ff00aa"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response body matches expected RGB\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.eql({ r: 255, g: 0, b: 170 });",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/hex-to-rgb/:hex (invalid)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/hex-to-rgb/zzz",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "hex-to-rgb", "zzz"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400 for bad input\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Error message is present\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property('error');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
