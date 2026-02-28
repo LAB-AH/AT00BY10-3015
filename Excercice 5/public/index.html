@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX to RGB Converter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+  <section class="section">
+      <div class="container">
+          <h1 class="title">HEX to RGB Converter</h1>
+          <div class="field">
+              <label class="label">Enter HEX Color Code</label>
+              <div class="control">
+                  <input id="hexInput" class="input" type="text" placeholder="e.g. #ff00aa or ff00aa">
+              </div>
+          </div>
+          <div class="field">
+              <div class="control">
+                  <button id="convertHEX" class="button is-primary">Convert</button>
+              </div>
+          </div>
+          <div id="resultHEX" class="notification is-info is-hidden"></div>
+      </div>
+  </section>
+
+  <section class="section">
+      <div class="container">
+          <h1 class="title">RGB to HEX Converter</h1>
+          <div class="field">
+              <label class="label">Enter RGB Color Code</label>
+              <div class="control">
+                  <input id="rgbInput" class="input" type="text" placeholder="e.g. 255,0,170">
+              </div>
+          </div>
+          <div class="field">
+              <div class="control">
+                  <button id="convertRGB" class="button is-primary">Convert</button>
+              </div>
+          </div>
+          <div id="resultRGB" class="notification is-info is-hidden"></div>
+      </div>
+  </section>
+
+  <script>
+    // Helper: strip whitespace & leading #
+    const sanitize = str => str.trim().replace(/^#/, '');
+
+    /** HEX to RGB conversion */
+    document.getElementById('convertHEX').addEventListener('click', async () => {
+      const raw = document.getElementById('hexInput').value;
+      const hex = sanitize(raw);
+
+      // Basic client‑side sanity check (should be 3 or 6 hex digits)
+      if (!/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(hex)) {
+        showResult('Please enter a valid 3‑ or 6‑digit HEX colour.' , 'resultHEX', true);
+        return;
+      }
+
+      try {
+        const resp = await fetch(`/api/hex-to-rgb/${hex}`);
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          // Server returned 400 with {error: "..."}
+          showResult(data.error || 'Conversion failed.', 'resultHEX', true);
+          return;
+        }
+
+        // Successful conversion
+        showResult(`RGB = (${data.r}, ${data.g}, ${data.b})`, 'resultHEX');
+      } catch (e) {
+        // Network or unexpected error
+        showResult('Unable to reach the server.', 'resultHEX', true);
+        console.error(e);
+      }
+    });
+
+
+    /** RGB to HEX conversion */
+    document.getElementById('convertRGB').addEventListener('click', async () => {
+      const raw = document.getElementById('rgbInput').value;
+      const rgb = sanitize(raw);
+
+      // Basic client‑side sanity check (should be three numbers 0–255, separated by commas)
+      if (!/^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$/.test(rgb)) {
+        showResult('Please enter a valid RGB colour.', 'resultRGB', true);
+        return;
+      }
+
+      const [r, g, b] = rgb.split(',').map(Number);
+      try {
+        const resp = await fetch(`/api/rgb-to-hex?r=${r}&g=${g}&b=${b}`);
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          // Server returned 400 with {error: "..."}
+          showResult(data.error || 'Conversion failed.', 'resultRGB', true);
+          return;
+        }
+
+        // Successful conversion
+        showResult(`HEX = ${data.hex}`, 'resultRGB');
+      } catch (e) {
+        // Network or unexpected error
+        showResult('Unable to reach the server.', 'resultRGB', true);
+        console.error(e);
+      }
+    });
+
+    /** Utility to show result or error messages */
+    function showResult(msg, target, isError = false) {
+      const el = document.getElementById(target);
+      el.textContent = msg;
+      el.classList.remove('is-hidden', 'is-danger', 'is-info');
+      el.classList.add(isError ? 'is-danger' : 'is-info');
+    }
+  </script>
+
+</body>
+</html>
