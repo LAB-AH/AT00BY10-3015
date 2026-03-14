@@ -1,0 +1,4 @@
+# Ignore all Node files
+node_modules/
+# Ignore all log files
+logs/
