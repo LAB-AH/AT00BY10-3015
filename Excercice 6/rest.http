@@ -1,0 +1,16 @@
+### Tally Counter API Tests
+
+### Read current counter value
+GET http://localhost:3000/counter-read
+
+### Increase counter by one
+GET http://localhost:3000/counter-increase
+
+### Reset counter to zero
+GET http://localhost:3000/counter-reset
+
+### Multiple increases
+GET http://localhost:3000/counter-increase
+GET http://localhost:3000/counter-increase
+GET http://localhost:3000/counter-increase
+GET http://localhost:3000/counter-read

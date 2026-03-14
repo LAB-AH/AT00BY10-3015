@@ -1,16 +1,18 @@
 {
   "name": "exercice-6",
-  "version": "1.0.0",
-  "description": "Exercice 6, Task 1 - Logger with Winston",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Exercice 6, Task 2 - Tally counter REST API",
+  "main": "src/main.js",
   "scripts": {
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Antti H.",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
+    "express": "^4.18.2",
     "winston": "^3.11.0"
   }
 }
